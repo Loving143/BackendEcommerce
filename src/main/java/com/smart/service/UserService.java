@@ -2,16 +2,15 @@ package com.smart.service;
 
 import java.util.Optional;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
 import com.smart.dto.ChangePasswordRequest;
 import com.smart.entity.Userss;
+import com.smart.request.RegisterRequest;
 
 public interface UserService {
 
 	Optional<Userss> findByUsername(String username);
 
-	void registerUser(Userss user);
+	void registerUser(RegisterRequest user) throws Exception;
 
 	Userss getUserDetails(String username);
 

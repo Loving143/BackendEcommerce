@@ -4,6 +4,8 @@ package com.smart.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.smart.request.RegisterRequest;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,6 +32,11 @@ public class Userss {
 	            joinColumns = @JoinColumn(name = "user_id"),
 	            inverseJoinColumns = @JoinColumn(name = "role_id"))
 	    private Set<Role> roles = new HashSet<>();
+
+		public Userss(RegisterRequest user) {
+			this.username = user.getUsername();
+			this.email = user.getEmail();
+		}
 
 		public Long getId() {
 			return id;
@@ -77,6 +84,11 @@ public class Userss {
 
 		public void setRoles(Set<Role> roles) {
 			this.roles = roles;
+		}
+
+		public Userss() {
+			super();
+			// TODO Auto-generated constructor stub
 		}
 
 

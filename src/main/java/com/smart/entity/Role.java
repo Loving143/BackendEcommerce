@@ -32,5 +32,10 @@ public class Role {
 			this.name = name;
 		}
 
+		public Role() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
+
 	   
 	}

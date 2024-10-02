@@ -18,6 +18,7 @@ import com.smart.auth.OtpRequest;
 import com.smart.entity.Otp;
 import com.smart.entity.Userss;
 import com.smart.repository.UserRepository;
+import com.smart.request.RegisterRequest;
 import com.smart.service.EmailService;
 import com.smart.service.EmailServices;
 import com.smart.service.OtpService;
@@ -52,7 +53,7 @@ import com.smart.service.UserService;
 
 	    // User login with username and password
 	    @PostMapping("/login")
-	    public String login(@RequestBody Userss user) {
+	    public String login(@RequestBody RegisterRequest user) {
 	    	System.out.println("This si  1");
 	        Authentication authentication = authenticationManager.authenticate(
 	                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
@@ -80,7 +81,9 @@ import com.smart.service.UserService;
 	        // Generate JWT token
 	        String jwtToken = jwtUtil.generateToken(otpReq.getUsername());
 //	        return "JWT Token: " + jwtToken;
-	        return ResponseEntity.ok(new LoginResponse(jwtToken));
+	        LoginResponse response = new LoginResponse(jwtToken,user);
+	        //System.out.println(response.getEmail());
+	        return ResponseEntity.ok(response);
 	    }
 	    
 	    

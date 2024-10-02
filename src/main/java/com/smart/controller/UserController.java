@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smart.dto.ChangePasswordRequest;
 import com.smart.entity.Userss;
+import com.smart.request.RegisterRequest;
 import com.smart.service.EmailServices;
 import com.smart.service.UserService;
 @RestController
@@ -27,7 +28,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/register")
-	public String RegisterUser(@RequestBody Userss user) {
+	public String RegisterUser(@RequestBody RegisterRequest user) throws Exception {
 		
 		userService.registerUser(user);
 		return "User registered successfully.";
