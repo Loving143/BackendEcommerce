@@ -27,7 +27,6 @@ public class Product {
 	
 	private Integer price;
 	
-	@Lob
 	private String description;
 	
 	@Lob
@@ -98,6 +97,19 @@ public class Product {
 		this.description = dto.getDescription();
 		this.img = dto.getImg().getBytes();
 		this.price = dto.getPrice();
+	}
+	
+	public ProductDto getDto() {
+		ProductDto dto = new ProductDto();
+		dto.setName(name);
+		dto.setByteImg(img);
+		dto.setCategoryId(id);
+		dto.setDescription(description);
+		dto.setId(id);
+		dto.setDescription(description);
+		dto.setPrice(price);
+		dto.setCategoryName(category.getName());
+		return dto;
 	}
 	
 	
