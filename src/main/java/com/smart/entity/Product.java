@@ -1,12 +1,14 @@
 package com.smart.entity;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.smart.dto.ProductDto;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Product {
@@ -28,6 +31,9 @@ public class Product {
 	private Integer price;
 	
 	private String description;
+	
+	@OneToMany(mappedBy = "product", cascade= CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<CartItems>cartItems;
 	
 	@Lob
 	
@@ -110,6 +116,14 @@ public class Product {
 		dto.setPrice(price);
 		dto.setCategoryName(category.getName());
 		return dto;
+	}
+
+	public List<CartItems> getCartItems() {
+		return cartItems;
+	}
+
+	public void setCartItems(List<CartItems> cartItems) {
+		this.cartItems = cartItems;
 	}
 	
 	

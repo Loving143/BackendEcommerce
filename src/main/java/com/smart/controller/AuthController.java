@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smart.auth.JwtUtil;
@@ -22,6 +23,7 @@ import com.smart.request.RegisterRequest;
 import com.smart.service.EmailService;
 import com.smart.service.EmailServices;
 import com.smart.service.OtpService;
+import com.smart.service.PasswordResetTokenServiceImpl;
 import com.smart.service.UserService;
 
 	@RestController
@@ -50,25 +52,26 @@ import com.smart.service.UserService;
 
 	    @Autowired
 	    private JwtUtil jwtUtil;
+	    
+	    @Autowired
+	    private PasswordResetTokenServiceImpl passwordResetService;
 
 	    // User login with username and password
 	    @PostMapping("/login")
 	    public String login(@RequestBody RegisterRequest user) {
-	    	System.out.println("This si  1");
 	        Authentication authentication = authenticationManager.authenticate(
 	                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-	        System.out.println("This si  2");
+	        
 	        SecurityContextHolder.getContext().setAuthentication(authentication);
 
 	        // Generate and send OTP to user's email
 	        Otp otp = otpService.generateOtp(user.getUsername());
-//	        emailService.sendOtpEmail(user.getEmail(), otp.getOtpCode());
 	        email.sendEmail(user.getEmail(), "Your otp for login to Elearning website is : "
 	        		+otp.getOtpCode() +".Please do not share it with any one.You know how much psycho he is ","OTP Verification");
 	        return "OTP generated successfully: "+otp.getOtpCode();
 	    }
 
-	    // Validate OTP and generate JWT
+	    // Validate OTP and generate JWT 
 	    @PostMapping("/verify-otp")
 	    public ResponseEntity<?> verifyOtp(@RequestBody OtpRequest otpReq) {
 	        Authentication authentication = authenticationManager.authenticate(
@@ -84,6 +87,20 @@ import com.smart.service.UserService;
 	        LoginResponse response = new LoginResponse(jwtToken,user);
 	        //System.out.println(response.getEmail());
 	        return ResponseEntity.ok(response);
+	    }
+	    
+	  
+
+	    @PostMapping("/forgot-password")
+	    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
+	        passwordResetService.sendPasswordResetToken(email);
+	        return ResponseEntity.ok("Password reset link sent to email");
+	    }
+	    
+	    @PostMapping("/reset-password")
+	    public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+	        passwordResetService.updatePassword(token, newPassword);
+	        return ResponseEntity.ok("Password has been reset successfully");
 	    }
 	    
 	    

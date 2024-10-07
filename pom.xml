@@ -58,6 +58,20 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-mail</artifactId>
 	</dependency>
+	
+	<dependency>
+    <groupId>de.codecentric</groupId>
+    <artifactId>spring-boot-admin-starter-client</artifactId>
+    <version>3.0.0</version> <!-- or the latest compatible version -->
+</dependency>
+
+<dependency>
+    <groupId>de.codecentric</groupId>
+    <artifactId>spring-boot-admin-starter-server</artifactId>
+    <version>3.0.0</version> <!-- or the latest compatible version -->
+</dependency>
+
+
 		<dependency>
     <groupId>io.jsonwebtoken</groupId>
     <artifactId>jjwt-api</artifactId>
